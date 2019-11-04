@@ -1,0 +1,13 @@
+       
+
+
+
+ <% if(typeof errors != 'undefined') {%>
+    <% errors.forEach(function(error) { %>
+    	<div class="alert alert danger">
+    	<%= error.msg %>
+    	 </div>
+  	<% });%>
+ <%}%> 
+
+ 

@@ -1,0 +1,15 @@
+
+
+<h1>Users Profile</h1>
+<div>
+    <a href="/upload"><img src="<%= user.image%>"></a>
+</div>
+<p>Firstname: <%= user.firstName%></p>
+<p>Lastname: <%=user.lastName%></p>
+<p>Email: <%= user.email%></p>
+<button>
+    <a href="/users/<%=user.id%>/edit">Edit information</a>
+</button>
+<button>
+    <a href="#">change password</a>
+</button>

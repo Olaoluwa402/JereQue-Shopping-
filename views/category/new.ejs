@@ -1,0 +1,20 @@
+
+
+
+<diV class="container">
+<div class="row">
+	<div style="width: 50%; margin: 25px auto;"> 
+		<h2 class="" style="text-align: center"> Create new Category </h2>
+		<form action="/category" method="post" data-toggle="validator" role="form">
+			<div class="form-group">
+				<label for="name"></label>
+				<input class="form-control" id="uname" type="text" name="name" placeholder="category name" required>
+				<div class="help-block with-errors" style="color: #ae323b"></div>
+			</div>
+			<input class="form-control"  type="hidden" name="_csrf" value="<%= csrfToken%>">
+		    <button type="submit" class="btn btn-lg btn-primary btn-block">submit</button>
+		</form>
+		<a type="button" href="/users/dashboard">Cancel</a>
+	</div> 
+</div>
+</diV>

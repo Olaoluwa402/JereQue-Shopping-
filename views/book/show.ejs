@@ -1,0 +1,97 @@
+
+<div class="container-fluid mt-4">
+    <div class="row">
+         <div col-md-3>
+             <div>
+                   <a href="/shop/add-to-cart/<%= book._id%>" class="btn bg-secondary" style = "color: #fff">Add to Cart</a>
+             </div>
+              <hr>
+             <div class="list-group showList">
+                 <li class="list-group-item bg-secondary ">Info 1</li>
+                 <li class="list-group-item bg-secondary">Info 2</li>
+                 <li class="list-group-item bg-secondary">Info 3</li>
+             </div>
+    
+         </div> <!--End of col-3 -->
+         <div class="col-md-9" style="">
+              <div class="card mb-3" style="">
+                  <img class="card-img-top img rounded" style=""src="<%= book.image%>" alt="Card image cap">
+                  <div class="card-body clearfix">
+                    <h4 class="float-right"><span>&#8358</span><%= book.price%></h4>
+                    <h4 class="card-title"><%=book.book_title%></h4>
+                   
+                      <span class="fa fa-star checked"></span>
+                      <span class="fa fa-star <% if (book.rating > 1.5) { %> checked <% } %>"></span>
+                      <span class="fa fa-star <% if (book.rating > 2.5) { %> checked <% } %>"></span>
+                      <span class="fa fa-star <% if (book.rating > 3.5) { %> checked <% } %>"></span>
+                      <span class="fa fa-star <% if (book.rating > 4.5) { %> checked <% } %>"></span>
+                      <div class="availa"><%= book.availability%></div>
+                      <span class="badge badge-primary"><%= book.rating.toFixed(2) %></span>
+                      <span class="badge badge-primary">[<%= book.reviews.length %>]</span>
+                      <em><span class="badge badge-primary badge-pill float-right"><%= book.reviews.length%> Reviews</span></em>
+                      <div> <%- book.description%> </div>
+
+
+                      <% if(currentUser && currentUser.isAdmin ){ %>
+                        <a id="delete-form" class="btn btn-lg btn-warning" href="/books/<%= book._id %>/edit">Edit</a>
+                        <form  id="delete-form" action="/books/<%= book._id %>?_method=DELETE" method="POST">
+                            <button class="btn btn-xs btn-danger">Delete</button>
+                            <input class="form-control"  type="hidden" name="_csrf" value="<%= csrfToken%>">
+                        </form>
+                    <% } %>
+                    
+                  </div>
+                  
+                </div> 
+              <div class="card">
+                  <div class="card-body p-4">
+                     
+                     <div class="text-right">
+                       <a class="btn btn-primary <% if (currentUser && book.reviews.some(function (review) {return review.author.id.equals(currentUser._id)})) { %> disabled <% } %>" href="/books/<%= book._id %>/reviews/new">
+                            Write a New Review</a>
+                    </div>
+                     <hr>
+
+
+                       <% if (book.rating === 0) { %>
+                          <h5>
+                              <em style="font-size:0.9rem;">No reviews yet.</em>
+                          </h5>
+                    <% } else { %>
+                      <% book.reviews.forEach(function(review){ %>
+                          <div class="row">
+                              <div class="col-md-12 clearfix">
+                                
+                                   <%- '<span class="fa fa-star checked"></span>'.repeat(review.rating) %><%- '<span class="fa fa-star"></span>'.repeat(5 - review.rating) %>
+      
+                                  <strong><%= review.author.username %></strong>
+                                  <span class="float-right"><%= review.createdAt.toDateString() %></span>
+                                  <p>
+                                      <%= review.text %> 
+                                  </p>
+                              <% if(currentUser && review.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
+                                  <a class="btn btn-xs btn-warning" href="/books/<%= book._id %>/reviews/<%= review._id %>/edit">Edit</a>
+                                  <form id="delete-form" action="/books/<%=book._id %>/reviews/<%=review._id %>?_method=DELETE" method="POST">
+                                      <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                                      <input class="form-control"  type="hidden" name="_csrf" value="<%= csrfToken%>">
+                                  </form>
+                              <% } %>
+                              </div>
+                          </div>
+                      <% }) %>
+
+                      <% } %>
+                  </div>
+                  <div style="margin-top: 10px;">
+                        <a class="btn btn-default" href="/books"><i class="fa fa-arrow-left"></i> Go back</a>
+                    </div>
+              </div>
+         </div>
+       </div>
+    </div>
+    
+              
+					
+			
+
+

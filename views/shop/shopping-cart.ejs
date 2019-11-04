@@ -1,0 +1,60 @@
+
+
+<div class="jumbotron ">
+  <h1 class="display-4">Here is your Cart</h1>
+  <p class="lead">Please kindly go through your Cart list, and click the checkout button to place your order and make payment.</p>
+  <hr class="my-4">
+ 
+
+
+	<% if(books){ %>
+		<div class="">
+			<ul class="list-group">
+				<% books.forEach(book => { %>	 		
+	                <li class="list-group-item d-flex justify-content-between align-items-center">
+	                  <strong>
+	                  	<%= book.item.book_title %>
+	                  	<span class="badge badge-primary "><span>&#8358</span><%= book.price%></span>
+	                  	<div class="dropdown">
+					  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+					    Action
+					  </button>
+					  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					    <ul>
+					    	<li><a class="dropdown-item" href="/shop/reduce/<%= book.item._id%>">Reduce by 1</a></li>
+					    	<li><a class="dropdown-item" href="/shop/increase/<%= book.item._id%>">increase by 1</a></li>
+					    	<li><a class="dropdown-item" href="/shop/remove/<%= book.item._id%>">Remove all</a></li>
+					    </ul>
+					  </div>
+					</div>
+	                  </strong>
+					<span class="badge bg-primary badge-pill"><%= book.qty %></span>
+				</li>
+				
+				<% }) %>
+			</ul>
+		</div>
+	<div class=" mt-2" >
+		<div class="">
+			<strong>Total: <%= total %></strong>
+		</div>
+	</div>
+	<hr>
+	<div class="">
+      <a class="btn btn-primary btn-lg" href="/shop/checkout/" role="button">Checkout</a>
+	</div>
+		
+	<% } else { %>
+
+		<div class="">
+			<div class="col-sm-6 col-md-6  ">
+				<h2>No items in Cart</h2>
+			</div>
+		</div>
+	
+	<% }%>
+
+
+
+
+</div>

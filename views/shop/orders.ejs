@@ -1,0 +1,153 @@
+
+<div class="container-fluid p-2">
+  <h2 class="text-center">All Orders</h2>
+  <table class="table mt-4" id="orders">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Payment Date</th>
+        <th scope="col">Buyer's Name</th>
+        <!-- <th scope="col">Email</th> -->
+        <!-- <th scope="col">Qty</th> -->
+        <th scope="col">Reference ID</th>
+        <th scope="col">Phone No</th>
+        <th scope="col">Address</th>
+        <th scope="col">Product(s)/Qty</th>
+        <th scope="col">Amount Paid</th>
+<!-- <th scope="col">Payment Time</th-->     
+      </tr>
+    </thead>
+    <%  orders.forEach(function(order) { %>
+    <tbody>
+      <tr>
+        <td> <%= order.paid_At.toDateString() %>  </td>
+        <td> <%= order.full_name%>  </td>
+         <td> <%= order.reference%>  </td>
+          <td> <%= order.phone_number%>  </td>
+          <td> <%= order.address%>  </td>
+           <td>
+          <ul class="list-unstyled">
+            <% order.items.forEach(function(item) { %>
+            <li><%= item.item.book_title%> | <span class="badge badge-primary"><%= item.qty%></span> | <span class="badge badge-primary"><span>&#8358</span><%= item.price %></span></li>
+             <% }); %>
+          </ul> 
+        </td>
+         <td> <%= order.cart.totalPrice%>  </td>
+      </tr>
+    </tbody>
+    <% })%>
+  </table>
+
+  <!-- next/previous button -->
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <button type="button" class="btn btn-info" onClick="getPrevious()";>Previous</button>
+      </div>
+      <div class="col-md-6">
+        <button type="button" class="btn btn-info float-right" onClick="getNext()";>Next</button>
+      </div>
+    </div>
+</div>
+
+
+<script>
+  let page = 1; 
+  let limit = 2;
+  let myTotal = <%= myTotal.length%>; 
+  
+  
+ function getNext(){
+  if(page * limit < myTotal){
+    page++;
+
+
+    $.ajax({
+            url: "/shop/get-orders/" + page + "/" + limit,
+            type:"GET",
+            success: function(response){
+              console.log(response);
+               renderBooks(response);
+            },
+             error: function(jqXHR, textStatus, errorThrown){
+              console.log(jqXHR);
+              console.log(textStatus);
+              console.log(errorThrown);
+            }
+ 
+        });
+   }
+    console.log("next page is" + page);
+   
+ }
+
+
+ function getPrevious(){
+  if(page > 1){
+    page--;
+
+    $.ajax({
+            url: "/shop/get-orders/" + page + "/" + limit,
+            type:"GET",
+            success: function(response){
+              console.log(response);
+               renderBooks(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+              console.log(jqXHR);
+              console.log(textStatus);
+              console.log(errorThrown);
+            }
+ 
+        });
+  }
+    console.log("previous page is" + page);
+  
+ }
+
+
+
+
+  function renderBooks(orders) {
+    if(orders.length > 0){
+      let html ="";
+
+     html +=' <thead class="thead-dark">';
+    html +='  <tr>';
+        html +='<th scope="col">Payment Date</th>';
+        html +='<th scope="col">Buyer\'s Name</th>';
+        html +='<th scope="col">Reference ID</th>';
+       html +=' <th scope="col">Phone No</th>';
+       html +=' <th scope="col">Address</th>';
+       html +=' <th scope="col">Product(s)/Qty</th>';
+       html +=' <th scope="col">Amount Paid</th> ';
+     html +=' </tr>';
+    html +='</thead>';
+     orders.forEach(function(order) { 
+   html +=' <tbody>';
+      html +='<tr>';
+        html +='<td>' + order.paid_At +  '</td>';
+        html +='<td>' + order.full_name +  '</td>';
+        html +=' <td>' + order.reference +  '</td>';
+         html +=' <td>' + order.phone_number +  '</td>';
+          html +='<td>' + order.address + '</td>';
+           html +='<td>';
+          html +='<ul class="list-unstyled">';
+            order.items.forEach(function(item) {
+            html +='<li>' + item.item.book_title + '| <span class="badge badge-primary">' + item.qty + '</span> | <span class="badge badge-primary"><span>&#8358</span>' + item.price + '</span></li>';
+              });
+          html +='</ul> ';
+       html +=' </td>';
+        html +=' <td>' + order.cart.totalPrice +  '</td>';
+     html +=' </tr>';
+    html +='</tbody>';
+});
+
+       $("#orders").html(html);
+  }
+}
+  
+ 
+   
+</script>
+
+
+  

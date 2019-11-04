@@ -1,0 +1,46 @@
+
+
+<diV class="container">
+<div class="row">
+
+	<div style="width: 33.3%; margin: 25px auto;">
+		<h2 style="text-align: center"> <i class="fas fa-user-plus" aria-hidden="true"></i> Register</h2>
+		
+		<form action="/users/register" method="post">
+			
+			<div class="form-group mb-0">
+				<label for="email"></label>
+				<input class="form-control" id="email" type="email" name="email" placeholder="@email" value="<%= typeof name != 'undefined' ? email: ''%>">
+			</div>
+			<div class="form-group mb-0">
+				<label for="fname"></label>
+				<input class="form-control" id="fname" type="text" name="firstName" placeholder="firstname" value="<%= typeof name != 'undefined' ? firstName: ''%>">
+			</div>
+			<div class="form-group mb-0">
+				<label for="lname"></label>
+				<input class="form-control" id="lname" type="text" name="lastName" placeholder="lastname" value="<%= typeof name != 'undefined' ? lastName: ''%>">
+			</div>
+			<div class="form-group mb-0">
+				<label for="pw"></label>
+				<input class="form-control" id="pw" type="password" name="password" placeholder="password" value="<%= typeof name != 'undefined' ? password: ''%>">
+			</div>
+			
+			<div class="form-group mb-0">
+				<label for="pw"></label>
+				<input class="form-control" id="pw" type="password" name="password2" placeholder="confirm password" value="<%= typeof name != 'undefined' ? password: ''%>">
+			</div>
+			<div class="form-group mb-1">
+				<label for="apw"></label>
+				<input class="form-control" id="apw" type="password" name="adminCode" placeholder="admin code" value="<%= typeof name != 'undefined' ? adminCode: ''%>">
+			</div>
+			<input class="form-control"  type="hidden" name="_csrf" value="<%= csrfToken%>">
+		    <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
+		</form>
+		<a href="/books"><i class="fa fa-arrow-left"></i> Go back</a>
+		<p class="lead mt-2">Have an Account?<a href="/users/login">  Login</a></p>
+		
+	</div> 
+</div>
+</diV>
+
+

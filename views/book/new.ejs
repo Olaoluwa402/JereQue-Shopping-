@@ -1,0 +1,81 @@
+
+
+
+<div class="container  p-2">
+    <div class="row p-2  ">
+        <div class="mx-auto">
+        <h2 class="text-center">Create new Product</h2>
+        <%= typeof msg != 'undefined' ? msg: ''%>
+        <form action="/books/?_csrf=<%=csrfToken%>" method="POST" enctype="multipart/form-data" data-toggle="validator" role="form">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="title">Title</label>
+                <input class="form-control" type="text" name="book_title" value= "<%= book.book_title%>" placeholder="Book title" required>
+                <div class="help-block with-errors" style="color: #ae323b"></div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="category">Category</label>
+                <select class="form-control" name= "category" > 
+                 <% categories.forEach(category => { %>
+                    <% if (category.id === book.category) { %>
+                        <option selected label=""  value ="<%= category._id %>" ><%= category.name %></option>
+                        <% } else {%>
+                        <option label=""  value ="<%= category._id %>"><%= category.name %></option>
+                    <% } %>
+                 <%})%>
+                </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="img">Cover</label>
+                 <input type="file" id="img" name=image   accept="image/*" required>
+                 <div class="help-block with-errors" style="color: #ae323b"></div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="price">Price</label>
+              <input class="form-control" type="number" min="1" name="price" value= "<%= book.price%>" placeholder="price">
+            </div>
+          </div>
+
+          <div class="form-row">
+                <div class="form-check form-check-inline">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="availability" id="inlineRadio1" value=""> Available
+                    </label>
+                </div>
+                <div class="form-check form-check-inline">
+                   <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="availability" id="inlineRadio2" value="Out of stock"> Out of stock
+                  </label>
+                </div>
+          </div>
+           <div class="form-row">
+                <div class="form-group col-md-12">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" data-error="Please enter Description field."  name="description" rows="9" required><%= book.description%></textarea>
+                <div class="help-block with-errors" style="color: #ae323b"></div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg float-right">Create New</button>
+           <a type="button" class="btn btn-primary btn-lg float-right mr-1" href="/books">Cancel</a>
+        </form>
+
+         <script>
+            CKEDITOR.replace( 'description' );
+         </script>
+    </div>
+</div>
+</div>
+
+
+
+
+<!-- 
+<div id="editor">
+    <p>This is the editor content.</p>
+</div>
+<script src="../node_modules/ckeditor4/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'editor' );
+</script>  -->

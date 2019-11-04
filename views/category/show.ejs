@@ -1,0 +1,131 @@
+
+<div class="container" id="books">
+	<a href="/books">Home <i class="fas fa-angle-double-right"></i> </a></span>
+	<% books.forEach(book => { %>
+	<div class="card mb-4 mt-4 mx-auto" style="max-width: 540px;">
+	  <div class="row no-gutters">
+
+	    <div class="col-md-4">
+	      <img class="" style="width:100%; height: 100%" src="<%= book.image%>" alt="Card image cap">
+	    </div>
+	    <div class="col-md-8">
+	      <div class="card-body">
+	        <h5 class="card-title"><strong><%=book.book_title%></strong></h5>
+	        <% if (book.rating === 0) { %>
+	               <em style="font-size:0.9rem;">No reviews yet.</em>
+	           <% } else { %>
+	               <span class="fa fa-star checked "></span>
+	               <span class="fa fa-star  <% if (book.rating > 1.5) { %> checked <% } %>"></span>
+	               <span class="fa fa-star <% if (book.rating > 2.5) { %> checked <% } %>"></span>
+	               <span class="fa fa-star <% if (book.rating > 3.5) { %> checked <% } %>"></span>
+	               <span class="fa fa-star <% if (book.rating > 4.5) { %> checked <% } %>"></span>
+	           <% } %>
+	           <div class="availa float-right"><%= book.availability%></div>
+	           <div><strong><span>&#8358</span><%= book.price%></strong></div>
+	           <a href="/shop/add-to-cart/<%= book._id%>" class="btn btn-outline-primary btn-sm">Add to Cart</a>
+			   <a class="btn btn-primary btn-sm"  href="/books/<%= book._id %>"> more info</a>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	<% }) %>
+
+	 <!-- next/previous button -->
+		<div class="row mt-2">
+			<div class="col-md-6">
+				<button type="button" class="btn btn-info" onClick="getPrevious()";>Previous</button>
+			</div>
+			<div class="col-md-6">
+				<button type="button" class="btn btn-info float-right" onClick="getNext()";>Next</button>
+			</div>
+		</div>
+
+</div>
+
+<script>
+	let page = 1; 
+	let limit = 12;
+	let myTotal = <%= myTotal.length%>;
+	
+	
+ function getNext(){
+ 	if(page * limit < myTotal){
+ 		page++;
+
+
+ 		$.ajax({
+            url: "category/get-category/" + page + "/" + limit,
+            type:"GET",
+            success: function(response){
+            	console.log(response);
+            	 renderBooks(response);
+            }
+ 
+        });
+ 	 }
+ 		console.log("next page is" + page);
+ 	 
+ }
+
+
+ function getPrevious(){
+ 	if(page > 1){
+ 		page--;
+
+ 		$.ajax({
+             url: "/get-category/" + page + "/" + limit,
+            type:"GET",
+            success: function(response){
+            	console.log(response);
+            	 renderBooks(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+            	console.log(jqXHR);
+            	console.log(textStatus);
+            	console.log(errorThrown);
+            }
+ 
+        });
+ 	}
+ 		console.log("previous page is" + page);
+ 	
+ }
+
+
+
+
+	function renderBooks(books) {
+		if(books.length > 0){
+			let html ="";
+
+			 for (let a=0; a < books.length; a++) {
+				 html +='<div class="card mb-4 mt-4 mx-auto" style="max-width: 540px;">';
+					  html +=' <div class="row no-gutters">';
+
+					   html +='  <div class="col-md-4">';
+					     html +='<img  style="width:100%; height: 100%" src="' + books[a].image +  '"alt="Card image cap">';
+					   html +='  </div>';
+					   html +='  <div class="col-md-8">';
+					     html +='  <div class="card-body">';
+					     html +=' <h5 class="card-title"><strong>' + books[a].book_title + '</strong></h5>';
+					       
+					           html +=' <div class="availa float-right">' + books[a].availability + '</div>';
+					          html +='  <div><strong><span>&#8358</span>' + books[a].price + '</strong></div>';
+					          html +='  <a href="/shop/add-to-cart/' + books[a]._id + '" class="btn btn-outline-primary btn-sm">Add to Cart</a>';
+							  html +='  <a class="btn btn-primary btn-sm"  href="/books/' + books[a]._id + '"> more info</a>';
+					    html +='   </div>';
+					    html +=' </div>';
+					  html +=' </div>';
+				  html +='</div>';
+							
+			}
+
+			 $("#books").html(html);
+	}
+}
+
+	
+
+   
+</script>
+	

@@ -1,0 +1,29 @@
+
+
+ <diV class="container">
+		<div class="row">
+			<div style="width: 50%; margin: 25px auto;"> 
+				<h2 class="" style="text-align: center">Search categories </h2>
+				<form action="/category" method="GET">
+					<div class="form-group">
+						<label for="name"></label>
+						<input class="form-control" id="uname" type="text" name="name" value= "<% if (locals.searchOptions != null){ %><%= searchOptions.name%> <% }%>" placeholder="category name">
+					</div>
+					
+				    <button type="submit" class="btn btn-lg btn-primary btn-block">Search</button>
+				</form>
+				<br>
+				<% categories.forEach(category => { %>
+				<div class="mb-4 clearfix">
+					<span><%=category.name %></span>
+					<form id="delete-form"  action="/category/<%= category.id %>?_method=DELETE" method="POST">
+						<button class="btn btn-primary btn-sm float-right ml-3" type="submit">Delete</button>
+						<input class="form-control"  type="hidden" name="_csrf" value="<%= csrfToken%>">
+				    </form>
+				    <span class="float-right" ><a class="btn btn-primary btn-sm" href="/category/<%= category.id %>/edit"> Edit</a></span>
+				</div>
+				<%})%>
+			</div> 
+		</div>
+</diV>
+

@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        <div style="width: 50%; margin: 25px auto;">
+            <h1 style="text-align: center">Checkout</h1>
+            <h4>Your Total: <span>&#8358</span><%= total%> </h4>
+            <form name="myForm", action="/shop/paystack/pay", method="POST">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="full_name" placeholder="full name" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="email" placeholder="email@yahoo.com" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="tel" name="phone_number" placeholder="phone number" required>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="address" placeholder="Enter your address" required>
+                </div>
+                
+                <input class="form-control"  type="hidden" name="_csrf" value="<%= csrfToken%>">
+            
+                <div class="form-group">
+                    <button type="submit" class="btn btn-lg btn-primary btn-block">Buy now!</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

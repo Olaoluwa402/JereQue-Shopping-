@@ -1,0 +1,45 @@
+/* :root{
+	--font-label-font-size:  1.2rem;
+	 
+
+}
+
+.newbook .form-row{
+	display: flex;
+	margin-bottom: .5rem;
+}
+
+.newbook .form-item{
+	display: flex;
+	flex-direction: column;
+	margin-left: 2rem;
+	flex-grow: 1;
+	flex-basis: 0;
+
+}
+.newbook .form-item:first-child{
+	margin-left: 0;
+}
+
+.form-item-no-grow{
+	flex-grow: 0;
+}
+
+.newbook .form-item > label{
+	font-size: var(--font-label-font-size);
+	margin-bottom: .25rem;
+	margin-left: .25rem;
+}
+
+.newbook .form-item input, .newbook .form-item select, .newbook .form-item textarea{
+	height: 2rem;
+	padding: .25rem .5rem;
+	border-radius: .25rem;
+	border: 1px solid blue
+	background-color: blue
+	
+	font-size: 1rem;
+	font-weight: normal;
+	outline: none;
+} */
+

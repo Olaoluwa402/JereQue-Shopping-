@@ -1,0 +1,18 @@
+
+
+<diV class="container">
+<div class="row">
+  <div style="width: 50%; margin: 25px auto;"> 
+    <h2 class="" style="text-align: center"> Edit Category </h2>
+    <form action="/category/<%= cate.id %>?_method=PUT" method="POST">
+      <div class="form-group">
+        <label for="name"></label>
+        <input class="form-control" id="uname" type="text" name="name" value="<%= cate.name %>" >
+      </div>
+      <input class="form-control"  type="hidden" name="_csrf" value="<%= csrfToken%>">
+        <button type="submit" class="btn btn-lg btn-primary btn-block">Update</button>
+    </form>
+    <a type="button" href="/category">Cancel</a>
+  </div> 
+</div>
+</diV>

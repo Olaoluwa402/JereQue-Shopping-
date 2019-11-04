@@ -1,0 +1,70 @@
+
+<% if(currentUser && currentUser.isAdmin ){ %>
+  <h2 class="text-center"> Admin Page </h2>
+  <a class="btn btn-lg btn-primary" href="/books/new">Add New Books</a>
+  <a class="btn btn-lg btn-primary" href="/category/new">Add New Categories</a>
+  <a class="btn btn-lg btn-primary" href="/category">All Categories</a>
+  <a class="btn btn-lg btn-primary" href="/shop/allorders">All Orders</a>
+  <a class="btn btn-lg btn-primary" href="/admin/settings">Page limit Settings</a>
+<%} else {%>
+  <div class="container">
+      <div style="width: ; margin: 25px auto;">
+       <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" href="#">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/shop/shopping-cart/">Wishlist</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+        </ul>
+
+        <hr>
+
+          <h2>My orders</h2> 
+         <%  orders.forEach(function(order) { %>
+          <div class="card border-success mb-3" style="">
+              <div class="card-header bg-transparent border-success"><%= order.paid_At.toDateString() %> | <%= moment(order.paid_At).fromNow() %></div>
+              <div class="card-body text-success">
+                  <ul class="list-group">
+                    <% order.items.forEach(function(item) { %>
+                          <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <%= item.item.book_title %> | <%= item.qty %> units
+                            <span class="badge badge-primary badge-pill"><span>&#8358</span><%= item.price %></span>
+                          </li>
+                  <% }); %>
+                </ul>
+              </div>
+              <div class="card-footer bg-transparent border-success">
+                  <strong> Total price: <%= order.cart.totalPrice%></strong>
+        
+              </div>
+          </div>
+         <% }); %>
+         
+      </div>
+  </div>
+<% }%>
+<!-- <div class="" id="navbarResponsive">
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                      <a class="nav-link" href="/books">Home </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/books/new">Add Books</a>
+                    </li>
+                     <li class="nav-item">
+                      <a class="nav-link" href="/category/new">Add Category</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/category/all">All Category</a>
+                    </li>
+                  </ul>
+</div>
+ -->
+ 
