@@ -2,7 +2,7 @@
 require('dotenv').config();
 
 
-import express from 'express';
+const express = require("express");
 const app = express();
 const expressLayouts = require("express-ejs-layouts");
 const cookieParser =require("cookie-parser");
@@ -30,7 +30,7 @@ const categoryRoutes  = require("./routes/category");
 const  reviewRoutes  = require("./routes/review");
 const  bookRoutes  = require("./routes/book");
 // const ratingRoutes     = require("./routes/rating");
-const shoppingRoutes     = require("./routes/shopping");
+const shoppingRoutes     = require("./routes/shopping"); 
 
 
 // connect to databas
