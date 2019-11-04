@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router({mergeParams: true});
 const passport = require("passport");
-// const request = require('request');
+const request = require('request');
 const _ = require('lodash');
 
 
