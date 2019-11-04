@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router({mergeParams: true});
 const passport = require("passport");
-const request = require('request');
 const _ = require('lodash');
 
 
@@ -12,7 +11,8 @@ const Review = require("../models/review");
 const Cart     = require("../models/cart");
 const Order     = require("../models/order");
 const BookLimit     = require("../models/book_limit");
-const {initializePayment, verifyPayment} = require('../config/paystack')(request);
+let request = require('request');
+let {initializePayment, verifyPayment} = require('../config/paystack')(request);
 
 // const imageMineTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
