@@ -104,8 +104,11 @@ app.use("/books/:id/reviews", reviewRoutes);
 
 
 
+let port = process.env.PORT;
+if(port == null || port == " "){
+    port = 3000;
+}
 
-
-app.listen(process.env.PORT || 3000, function(){
+app.listen(port, function(){
    console.log("Your Ecom_bookstore Server Has Started!");
 });
