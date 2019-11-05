@@ -1,6 +1,8 @@
 
 require('dotenv').config();
 
+console.log(process.env);
+
 
 const express = require("express");
 const app = express();
@@ -32,8 +34,7 @@ const  bookRoutes  = require("./routes/book");
 const shoppingRoutes     = require("./routes/shopping"); 
 
 
-// connect to databas
-// "" process.env.DATABASE_URL
+
  const url = process.env.DATABASE_URL || "mongodb://localhost:27017/ecom_bookstore03";
 mongoose.connect(url, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true },  function(err){
 	if (err){

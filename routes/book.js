@@ -36,11 +36,7 @@ const imageFilter = function (req, file, cb) {
 const upload = multer({ storage: storage, limits:{ fileSize: 200000},fileFilter: imageFilter}).single('image');
 
 const cloudinary = require('cloudinary').v2;
-// cloudinary.config({ 
-//   cloud_name: 'oladan', 
-//   api_key: '467581393921225', 
-//   api_secret: '3nCGD-SqnqEXhgxqCWDhnWNH5GI'
-// });
+
 cloudinary.config({ 
   cloud_name: 'oladan', 
   api_key: process.env.CLOUDINARY_API_KEY, 
