@@ -5,7 +5,7 @@
 		<form action="/admin/save_settings" method="post">
 			<div class="form-group">
 				<label for="limit"></label>
-				<input class="form-control" id="limit" type="text" name="book_limit" value="<%= bookLimit.book_limit%>">
+				<input class="form-control" id="limit" type="text" name="book_limit" value="">
 			</div>
 			<input class="form-control"  type="hidden" name="_csrf" value="<%= csrfToken%>">
 		    <button type="submit" class="btn btn-lg btn-primary btn-block">Save settings</button>
