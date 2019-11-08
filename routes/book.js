@@ -52,8 +52,8 @@ cloudinary.config({
 // All books page
 // Book.find().populate({'path': 'category', match:{'name':'Medical'}})
 router.get("/", async (req, res, next) => {
-  const limit = await BookLimit.findOne({});
-  const limitResult = parseInt(limit.book_limit);
+  // const limit = await BookLimit.findOne({});
+  // const limitResult = parseInt(limit.book_limit);
 
 	let query = Book.find().sort({createdAt: 'desc'}).limit(4);
 	if (req.query.book_title != null && req.query.book_title != ''){
