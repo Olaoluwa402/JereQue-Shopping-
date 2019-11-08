@@ -3,8 +3,8 @@
 <diV class="container">
 <div class="row">
 
-	<div style="width: 33.3%; margin: 25px auto;">
-		<h2 style="text-align: center"> <i class="fas fa-user-plus" aria-hidden="true"></i> Register</h2>
+	<div class=" w-50 mx-auto formtag" >
+		<h2 style="text-align: center"> <i class="fas fa-user-plus mt-2" aria-hidden="true"></i> Register</h2>
 		
 		<form action="/users/register" method="post">
 			
@@ -31,7 +31,7 @@
 			</div>
 			<div class="form-group mb-1">
 				<label for="apw"></label>
-				<input class="form-control" id="apw" type="password" name="adminCode" placeholder="admin code" value="<%= typeof name != 'undefined' ? adminCode: ''%>">
+				<input class="form-control" id="apw" type="hidden" name="adminCode" placeholder="admin code" value="<%= typeof name != 'undefined' ? adminCode: ''%>">
 			</div>
 			<input class="form-control"  type="hidden" name="_csrf" value="<%= csrfToken%>">
 		    <button class="btn btn-primary btn-block" type="submit">Sign Up</button>
