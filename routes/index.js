@@ -262,10 +262,10 @@ router.post("/users/login", passport.authenticate("local",
 
 // logout route
 router.get("/users/logout", function(req, res){
-  // req.session.destroy();
    req.logout();
    req.flash("success", "Logged you out!");
    res.redirect("/books");
+   // req.session.destroy();
 });
 
 
@@ -337,6 +337,10 @@ router.get("/users/:id/edit", async (req, res) => {
                  console.log(e);
                  res.redirect("/users/:id/edit")
           }
+});
+
+router.get("/contact", function(req, res){
+    res.render("contact/contact");
 });
 
 // Profile update route

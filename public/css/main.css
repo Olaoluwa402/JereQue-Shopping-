@@ -240,6 +240,15 @@ hr.light-100{
     color: #bc1339;
 }
 
+/* contact us */
+.contact_us h2{
+    font-size: 1.5rem;
+    color:#bc1339 ;
+}
+.contact_us h3{
+    font-size: 1rem;
+}
+
 /* ---Media Queries --*/
 @media (max-width : 992px){
     .social a {
@@ -265,7 +274,14 @@ hr.light-100{
     }
     .formtag{
     width: 75% !important;
+    }
+    .contact_us h2{
+    font-size: 1.3rem;
+    }
+    .contact_us h3{
+    font-size: 1rem;
 }
+
 }
 
  @media (max-width: 576px) {
@@ -280,6 +296,16 @@ hr.light-100{
 }
  .formtag{
     width: 100% !important;
+}
+
+.buttonfloat{
+    
+}
+.contact_us h2{
+    font-size: 1rem;
+}
+.contact_us h3{
+    font-size: 0.8rem;
 }
 
 }

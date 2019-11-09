@@ -7,11 +7,11 @@
           <li class="nav-item">
               <a class="nav-link" href="/shop/shopping-cart/">
               <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart
-              <span class="badge bg-primary"><% if (locals.session.cart != null){ %><%= session.cart.totalQty%>  <% } %></span>
+              <span class="badge bg-danger" style="color:#fff;"><% if (locals.session.cart != null){ %><strong><%= session.cart.totalQty%></strong>  <% } %></span>
               </a>
           </li> <span class=" pt-1 ">|</span>
           <li class="nav-item">
-            <a class="nav-link active" href="#">Contact</a>
+            <a class="nav-link active" href="/contact">Contact Us</a>
           </li> <span class="pt-1 ">|</span>
           <li class="nav-item">
             <a class="nav-link" href="#">Blog</a>
