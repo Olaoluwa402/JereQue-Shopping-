@@ -3,8 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width-device-width, initial-scale=1">
+         <!-- <link rel="stylesheet" href="/css/reset.css"> -->
+        <link rel="stylesheet" href="/css/normalize.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=poppins:400,500,700">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+       <!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+        
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/forms.css">
@@ -17,12 +21,15 @@
         <script defer src="https://unpkg.com/filepond/dist/filepond.js"></script>
         <script defer src="/javascripts/fileUpload.js"></script> -->
         <script defer src="/javascripts/main.js"></script>
+        <script defer src="/javascripts/map.js"></script>
         <script src="https://cdn.ckeditor.com/4.13.0/standard-all/ckeditor.js"></script>
    <!-- <script src="//cdn.ckeditor.com/4.13.0/full/ckeditor.js"></script> -->
+         
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"> </script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="crossorigin="anonymous">
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"> </script>
-        <title>Ecom_Bookstore</title>
+        <title>JereQue Online Shopping Store</title>
    </head>
     <body>
         <%- include('../partials/header.ejs') %>
@@ -109,8 +116,13 @@
     </div>
 </div>
 </footer>
+<!-- map script -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsgzJYbUWq5Wimyr7--3NqHWEezFYmSaM&callback=initMap" async defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+ <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
     </div> 
     </div>
  </body>

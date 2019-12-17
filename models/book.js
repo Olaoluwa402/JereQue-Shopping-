@@ -8,6 +8,10 @@ const Review = require("./review");
 const BooksSchema =  new mongoose.Schema({
     image: {type:String, required:true},
     imageId: String,
+    image_1: String,
+    imageId_1: String,
+    image_2: String,
+    imageId_2: String,
     book_title: {type:String, required:true},
     description: {type:String, required:true},
     availability: String,

@@ -11,3 +11,109 @@
  <%}%> 
 
  
+ <div class="container-fluid topnav">
+      <ul class="nav justify-content-end">
+        <span class=" pt-1 ">|</span>
+          <li class="nav-item">
+              <a class="nav-link" href="/shop/shopping-cart/">
+              <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart
+              <span class="badge bg-danger" style="color:#fff;"><% if (locals.session.cart != null){ %><strong><%= session.cart.totalQty%></strong>  <% } %></span>
+              </a>
+          </li> <span class=" pt-1 ">|</span>
+          <li class="nav-item">
+            <a class="nav-link " href="/contact">Contact Us</a>
+          </li> <span class="pt-1 ">|</span>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Blog</a>
+          </li> <span class="pt-1">|</span>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li> <span class="pt-1">|</span>
+          <li class="nav-item">
+            <a class="nav-link " href="/books">Home</a>
+          </li>
+      </ul>
+ </div>
+
+ <nav class="navbar navbar-expand-lg navbar-dark bg-dark " >
+        <div class="container-fluid ">
+
+           <a class="navbar-brand" href="#">LOGO</a>
+            <button type="button" id="sidebarCollapse" class="btn btn-light mt-0 ml-4" >
+                <i class="fas fa-align-left"></i>
+                <span>ALL CATEGORIES</span>
+            </button>
+            
+               <a class="navbar-brand" href="#">LOGO</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+              
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+              <form class="form-inline mx-auto mt-3 " id="" action="/books" method="GET">
+               <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text"><i class="fas fa-search bg-light"></i></div>
+                  </div>
+                  <input class="form-control mr-sm-2" type="search" name="book_title" 
+              value= "<% if (locals.searchOptions != null){ %><%= searchOptions.book_title%> <% }%>" placeholder="Search all Books" aria-label="Search"> 
+                </div>
+            </form>
+                   
+                  <ul class="navbar-nav ml-auto">
+                   
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      ACCOUNT
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/shop/shopping-cart/">Wishlist</a>
+                        <% if(!currentUser){ %>
+                        <a class="dropdown-item" href="/users/login">Login</a>
+                         <% } else { %>
+                         <a class="dropdown-item" href="/users/dashboard"><i class="fas fa-user"><span> Dashboard</span></i></a>
+                          <a class="dropdown-item" href="/users/logout">Logout</a>
+
+                        <% } %>
+                        <a class="dropdown-item" href="/users/register">Signup</a>
+                    </li>
+                  </ul>
+
+                </div>
+               
+        </div>
+    </nav>
+      <!--navigation-->
+      <!-- side bar collapse -->
+     <div class="wrapper">
+
+    <!-- Sidebar AJAX CALL-->
+    <nav id="sidebar" class="nav-dark bg-dark p-3">
+      
+        <ul class=" active list-unstyled components" id="">
+          <li><a href="/category/5dd2822fa7a07c02b8936e4d"><i class="fas fa-ambulance"></i> Medicals</a></li>
+          <li><a href="/category/5ded053cc850c612fce5739b"><i class="fas fa-graduation-cap"></i> Stationary</a></li>
+        </ul>
+     </nav>
+
+    <div id="content" class="container">
+
+      <!--error message-->
+    <div class="container">
+     <% if(error && error.length > 0) { %>
+       <div class="alert alert-danger"><p><%=error %></p></div>
+       
+     <% } %>
+     
+     <% if(success && success.length > 0) { %>
+       <div class="alert alert-success"><p><%= success %></p></div>
+     <% } %>
+  </div>
+
+<% if(typeof errors != 'undefined') {%>
+    <% errors.forEach(function(error) { %>
+      <div class="alert alert-danger">
+      <%= error.msg %>
+       </div>
+    <% });%>
+ <%}%> 

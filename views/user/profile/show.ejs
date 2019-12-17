@@ -1,15 +1,38 @@
 
 
-<h1>Users Profile</h1>
-<div>
-    <a href="/upload"><img src="<%= user.image%>"></a>
-</div>
-<p>Firstname: <%= user.firstName%></p>
-<p>Lastname: <%=user.lastName%></p>
-<p>Email: <%= user.email%></p>
-<button>
-    <a href="/users/<%=user.id%>/edit">Edit information</a>
-</button>
-<button>
-    <a href="#">change password</a>
-</button>
+<diV class="container">
+<div class="row">
+
+	<div class=" w-50 mx-auto formtag" >
+		<h2 style="text-align: center"> Users Profile</h2>
+		
+		<form action="" method="">
+			<div class="form-group mb-0">
+				<label for="fname">First Name</label>
+				<input class="form-control" id="fname" type="text" name="firstName" placeholder="" value="<%= user.firstName%>" disabled>
+			</div>
+			<div class="form-group mb-0">
+				<label for="lname">Last Name</label>
+				<input class="form-control" id="lname" type="text" name="lastName" placeholder="" value="<%= user.lastName%>" disabled>
+			</div>
+			<div class="form-group mb-0">
+				<label for="email">Email</label>
+				<input class="form-control" id="email" type="email" name="email" placeholder="" value="<%= user.email%>" disabled>
+			</div>
+		</form>
+		
+		   <div class="mt-4 mb-2">
+		   	<button id="#delete-form">
+			    <a href="/users/<%=user.id%>/edit">Edit information</a>
+			</button>
+			<button id="#delete-form">
+			    <a href="/users/password/<%=user.id%>">change password</a>
+			</button >
+			</div>
+			<div><a href="/books"><i class="fa fa-arrow-left"></i> Go back</a></div>
+			
+	</div> 
+ </div>
+</diV>
+
+

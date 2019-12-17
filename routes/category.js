@@ -66,34 +66,35 @@ router.post("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
 	// res.send("Category" + req.params.id)
 	try{ 
-		const resp = await Book.find().sort({createdAt: 'desc'}).limit(12).populate({"path": "category", match:{"_id":req.params.id}}).exec();
+		const resp = await Book.find().sort({createdAt: 'desc'}).populate({"path": "category", match:{"_id":req.params.id}}).limit(10).exec();
 		const books = resp.filter(function(i){
 			    return i.category != null;
 			  });
     const myTotalResp= await Book.find().populate({"path": "category", match:{"_id":req.params.id}}).exec();
-    const myTotal = resp.filter(function(i){
+    const myTotal = myTotalResp.filter(function(i){
           return i.category != null;
         });
-
-			 res.render("category/show", {books: books, myTotal: myTotal });
+    const catShow = await Category.find({"_id":req.params.id});
+    const categoryId = req.params.id
+			 res.render("category/show", {books: books, myTotal: myTotal, categoryId:categoryId, catShow:catShow});
 	} catch{
 		    	req.flash("error", "something went wrong with fetching associated books");
 		  		res.redirect("/books");
        }
      });
 
-// ajax call
-router.get("/get-category/:page/:limit", async (req, res) => {
+// ajax call for pagination
+router.get("/:id/get-category/:page/:limit", async (req, res) => {
+  const page = req.params.page
+  const limit =req.params.limit
 
-  
-  console.log(req.params.page)
-  console.log(req.params.limit)
+  const startIndex = (page - 1) * limit
+  const endIndex = page * limit
    try{
-    const resp = await Book.find().populate({"path": "category", match:{"_id":req.params.id}}).sort({createdAt: 'desc'}).skip(parseInt(req.params.page)).limit(parseInt(req.params.limit)).exec();
+    const resp = await Book.find().populate({"path": "category", match:{"_id":req.params.id}}).sort({createdAt: 'desc'}).skip(parseInt(startIndex)).limit(parseInt(limit)).exec();
     const books = resp.filter(function(i){
           return i.category != null;
         });
-
     res.send(books);
       // res.render("book/landing", {
       //   books: books,
@@ -106,6 +107,23 @@ router.get("/get-category/:page/:limit", async (req, res) => {
    }
 })
 
+
+// ajax call for similar products on show page
+
+router.get("/similar_products/:categoryId", async (req, res) => {
+  console.log("you hit the post" + req.params.categoryId)
+   try{
+    const resp = await Book.find().populate({"path": "category", match:{"_id":req.params.categoryId}}).sort({createdAt: 'desc'}).skip(2).limit(12).exec();
+    const books = resp.filter(function(i){
+          return i.category != null;
+        });
+    res.send(books);
+   } catch(error){
+      if(error){
+        console.log(error);
+      }
+   }
+})
 
 router.get("/:id/edit", function(req, res){
   Category.findById(req.params.id, function(err, category){

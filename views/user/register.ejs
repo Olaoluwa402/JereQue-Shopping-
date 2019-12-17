@@ -31,7 +31,7 @@
 			</div>
 			<div class="form-group mb-1">
 				<label for="apw"></label>
-				<input class="form-control" id="apw" type="hidden" name="adminCode" placeholder="admin code" value="<%= typeof name != 'undefined' ? adminCode: ''%>">
+				<input class="form-control" id="apw" type="password" name="adminCode" placeholder="admin code" value="<%= typeof name != 'undefined' ? adminCode: ''%>">
 			</div>
 			<input class="form-control"  type="hidden" name="_csrf" value="<%= csrfToken%>">
 		    <button class="btn btn-primary btn-block" type="submit">Sign Up</button>

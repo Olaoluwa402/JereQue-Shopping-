@@ -9,6 +9,8 @@ const Cart     = require("../models/cart");
 const Order     = require("../models/order");
 const {initializePayment, verifyPayment} = require('../config/paystack')(request);
 
+const middleware = require("../middleware");
+
 
 
 router.get("/shopping-cart", (req, res) => {
@@ -127,18 +129,8 @@ router.get("/add-to-cart/:id", (req, res) => {
     }
     cart.add(book, book.id);
     req.session.cart = cart;
-    console.log(req.session.cart);
-    res.redirect('/books');
+    res.redirect('back');
   });
-
-  // try{
-  //   const BookId = await req.params.id;
-  //   const Cart = await new Cart(req.session.cart ? req.session.cart : {});
-
-  //   Book.findById(BookId)
-  // } catch{
-
-  // }
 });
  // reduce items in cart by 0ne
 router.get("/reduce/:id", (req, res) => {
@@ -180,7 +172,7 @@ router.get("/checkout", isLoggedIns,  function(req, res, next){
 });
 
 
-router.get("/allorders", isLoggedIns,  async (req, res, next) =>{
+router.get("/allorders", isLoggedIns, middleware.adminAccess, async (req, res, next) =>{
 
   try{
      const orders = await Order.find().limit(2).sort({paid_At: 'desc'});
@@ -190,39 +182,30 @@ router.get("/allorders", isLoggedIns,  async (req, res, next) =>{
         cart = new Cart(order.cart);
         order.items = cart.generateArray();
       });
-       res.render("shop/orders", {orders : orders, myTotal :myTotal });
+       res.render("shop/orders", {orders : orders, myTotal:myTotal});
   }catch(err){
            if (err){
         console.log(err);
       }
   }
-
-  // Order.find({},function(err, orders){
-  //     if (err){
-  //       console.log(err);
-  //     }
-  //     let cart;
-  //     orders.forEach(function(order){
-  //       cart = new Cart(order.cart);
-  //       order.items = cart.generateArray();
-  //     });
-  //    const myTotal = 
-  //     res.render("shop/orders", {orders : orders});
-  //   }).sort({paid_At: 'desc'});
 });
 
 // ajax call
 router.get("/get-orders/:page/:limit", async (req, res) => {
-console.log(req.params.page);
-  console.log(req.params.limit);
+  const page = req.params.page
+  const limit =req.params.limit
+
+  const startIndex = (page - 1) * limit
+  const endIndex = page * limit
   try{
 
-    const orders = await Order.find({}).sort({paid_At: 'desc'}).skip(parseInt(req.params.page)).limit(parseInt(req.params.limit));
+      let orders = await Order.find().skip(parseInt(startIndex)).limit(parseInt(limit)).sort({paid_At: 'desc'});
       let cart;
       orders.forEach((order) => {
         cart = new Cart(order.cart);
         order.items = cart.generateArray();
       });
+      
       res.send(orders);
     } catch(err){
           if (err){

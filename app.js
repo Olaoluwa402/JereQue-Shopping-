@@ -33,7 +33,7 @@ const shoppingRoutes     = require("./routes/shopping");
 
 
 
- const url = process.env.DATABASE_URL || "mongodb://localhost:27017/ecom_bookstore03";
+ const url = process.env.DATABASE_URL || "mongodb://localhost:27017/jerequeStore";
 mongoose.connect(url, { useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true },  function(err){
 	if (err){
 		console.error('system could not connect to mongo server.');

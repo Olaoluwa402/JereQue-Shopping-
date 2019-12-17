@@ -1,6 +1,6 @@
 
-<div class="container-fluid p-2">
-  <h2 class="text-center">All Orders</h2>
+<div class="container-fluid p-2 orderTable">
+  <h2 class="text-center mt-2" style="font-size: 1.2rem"><strong>All Orders</strong></h2>
   <table class="table mt-4" id="orders">
     <thead class="thead-dark">
       <tr>
@@ -36,23 +36,27 @@
     </tbody>
     <% })%>
   </table>
+</div>
 
-   <!-- next/previous button -->
+<!-- next/previous button -->
+    <div class="container-fluid">
     <div class="row mt-2">
       <div class="  col-md-12">
         <button type="button" class="btn btn-info " onClick="getPrevious()";>Previous</button>
         <button type="button" class="btn btn-info float-right buttonfloat" onClick="getNext()";>Next</button>
       </div>
     </div>
-</div>
+   </div>
 
-
-<script>
+<script type="text/javascript">
+ 
   let page = 1; 
   let limit = 2;
   let myTotal = <%= myTotal.length%>; 
   
-  
+
+
+
  function getNext(){
   if(page * limit < myTotal){
     page++;
@@ -61,9 +65,10 @@
     $.ajax({
             url: "/shop/get-orders/" + page + "/" + limit,
             type:"GET",
-            success: function(response){
-              console.log(response);
-               renderBooks(response);
+            datatype: "json",
+            success: function(orders){
+              console.log(orders);
+               renderBooks(orders);
             },
              error: function(jqXHR, textStatus, errorThrown){
               console.log(jqXHR);
@@ -85,9 +90,9 @@
     $.ajax({
             url: "/shop/get-orders/" + page + "/" + limit,
             type:"GET",
-            success: function(response){
-              console.log(response);
-               renderBooks(response);
+            success: function(orders){
+              console.log(orders);
+               renderBooks(orders);
             },
             error: function(jqXHR, textStatus, errorThrown){
               console.log(jqXHR);
@@ -119,33 +124,30 @@
        html +=' <th scope="col">Amount Paid</th> ';
      html +=' </tr>';
     html +='</thead>';
-     orders.forEach(function(order) { 
-   html +=' <tbody>';
-      html +='<tr>';
-        html +='<td>' + order.paid_At +  '</td>';
-        html +='<td>' + order.full_name +  '</td>';
-        html +=' <td>' + order.reference +  '</td>';
-         html +=' <td>' + order.phone_number +  '</td>';
-          html +='<td>' + order.address + '</td>';
-           html +='<td>';
-          html +='<ul class="list-unstyled">';
-            order.items.forEach(function(item) {
-            html +='<li>' + item.item.book_title + '| <span class="badge badge-primary">' + item.qty + '</span> | <span class="badge badge-primary"><span>&#8358</span>' + item.price + '</span></li>';
-              });
-          html +='</ul> ';
-       html +=' </td>';
-        html +=' <td>' + order.cart.totalPrice +  '</td>';
-     html +=' </tr>';
-    html +='</tbody>';
-});
+          $.each(orders, function(i, order){
+              html +=' <tbody>';
+                html +='<tr>';
+                 html +='<td>' + order.paid_At +  '</td>';
+                   html +='<td>' + order.full_name +  '</td>';
+                    html +=' <td>' + order.reference +  '</td>';
+                     html +=' <td>' + order.phone_number +  '</td>';
+                      html +='<td>' + order.address + '</td>';
+                       html +='<td>';
+                        html +='<ul class="list-unstyled">';
+                 $.each(order.cart.items, function(i, item){
+                  console.log(`${item.qty}`);
+                    html +='<li>' + item.item.book_title + '| <span class="badge badge-primary">' + item.qty + '</span> | <span class="badge badge-primary"><span>&#8358</span>' + item.price + '</span></li>';
+                 });
+                       html +='</ul> ';
+                      html +=' </td>';
+                     html +=' <td>' + order.cart.totalPrice +  '</td>';
+                    html +=' </tr>';
+                  html +='</tbody>';
+                });
+        $("#orders").html(html);
+    }
+ }
 
-       $("#orders").html(html);
-  }
-}
-  
- 
-   
 </script>
-
 
   

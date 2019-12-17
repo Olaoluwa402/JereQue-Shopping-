@@ -6,20 +6,44 @@
     --shadow: 0 1px 5px rgba(104, 104, 104, 0.8 );
 }
 
+/* htlm5 */
+article, aside, detail, figcaption, figure, footer, header, hgroup, menu, nav, section{
+    display: block;
+}
+
 html, body{
 	height: 100%;
     width: 100%;
 	font-family: 'poppins', sans-serif;
-	color: black
+	color: black;
     background-color: #fff;
+}
+
+
+
+/* google map */
+#map {
+    width: 100% ;
+    height: 400px;
+  }
+
+.mynav{
+    background: #e91e63 !important;
 }
 
 .topnav{
     padding: .5rem;
 }
+.topnav .navbar-brand{
+    color:#e91e63 ;
+    font-size: 2rem;
+    line-height: 1.2rem;
+}
 
-.topnav li{
+.topnav ul li{
     padding-right: 5px;
+    list-style: none;
+    text-align: center;
 }
 .topnav .nav-link{
     font-size: .9em !important;
@@ -40,71 +64,13 @@ html, body{
 .carousel-inner{
 	width: 100%;
 	max-height: 400px;
-	margin-top: 30px;
+	margin-top: ;
 }
 .carousel-inner img{
 	max-width: 100%;
 	max-height:100%;
 }  
 
-/* <ul class="nav justify-content-end">
-          <li class="nav-item">
-              <a class="nav-link" href="/shop/shopping-cart/">
-              <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart
-              <span class="badge bg-primary"><% if (locals.session.cart != null){ %><%= session.cart.totalQty%>  <% } %></span> |
-              </a>
-          </li>
-           <li class="nav-item"><a class="nav-link" href="#">Wishlist |</a></li>
-           <li class="nav-item"><a class="nav-link" href="#">Checkout |</a></li>
-
-             <% if(!currentUser){ %>
-             <li class="nav-item"><a  class="nav-link" href="/users/login">Login |</a></li>
-            <% } else { %>
-             <li class="nav-item"><a class="nav-link" href="/users/dashboard/<%=currentUser.id%>"><i class="fas fa-user"><span> profile</span></i></a></li>
-              <li class="nav-item"><a class="nav-link" href="/users/logout">Logout |</a></li>
-
-                        <% } %>
-             <li class="nav-item"><a class="nav-link" href="/users/register">Sign up</a></li>
-      </ul>
-
-*/
-
-
-/* .wrapper {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-} */
-
-.wrapper {
-    display: flex;
-    width: 100%;
-    align-items: stretch;
-}
-
-#sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    min-height: 100vh;
-}
-
-#sidebar.active {
-    margin-left: -250px;
-}
-
-a[data-toggle="collapse"] {
-    position: relative;
-}
-
-.dropdown-toggle::after {
-    display: block;
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-}
-
-/*
  Social
  */
 .social a{
@@ -129,23 +95,38 @@ a[data-toggle="collapse"] {
 }
 
 .fa-star{
-    font-size: 50%;
-}
-
-/* .cardlanding2 h5{
-    font-size: 100%;
-}
-
-.cardlanding2 .btn{
-    font-size: 100%;
-}
-
-
-.cardlanding2 btn{
     font-size: 75%;
-    display: inline-block;
-    float: ;
-} */
+}
+
+/* show page */
+.newarrival{
+    background: green;
+    width: 50px;
+    color: white; 
+    font-size: 12px;
+    font-weight: bold;
+}
+.showgrid{
+    color: #555;
+}
+
+.showgrid .price, .landingCard .price, .categoryPrice {
+    color: #FE980F;
+}
+
+.landingCard .cardTitle, .categoryTitle{
+    color: green;
+    font-size: 1.1em;
+}
+
+.showgrid input{
+    border: 1px solid #ccc;
+    font-weight: bold;
+    height: 33px;
+    text-align: center;
+    width: 30px;
+}
+
 
 .social:hover,
 .fa-facebook:hover,
@@ -249,6 +230,12 @@ hr.light-100{
     font-size: 1rem;
 }
 
+/* image previes jquery js */
+#prev-text{
+    padding-left: 20px;
+}
+
+
 /* ---Media Queries --*/
 @media (max-width : 992px){
     .social a {
@@ -284,100 +271,8 @@ hr.light-100{
 
 }
 
- @media (max-width: 576px) {
-         .social a {font-size: 2em;
-        padding: .7rem;
-    }
-    .box1{
-    text-align: center;
-}
-.boxes1 .fa-star {
-    padding: 0;
-}
- .formtag{
-    width: 100% !important;
-}
-
-.buttonfloat{
-    
-}
-.contact_us h2{
-    font-size: 1rem;
-}
-.contact_us h3{
-    font-size: 0.8rem;
-}
-
-}
 
 
-
-
-
-
-
-
-/*
-    ADDITIONAL DEMO STYLE, NOT IMPORTANT TO MAKE THINGS WORK BUT TO MAKE IT A BIT NICER :)
-*/
-@import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
-
-
-p {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.1em;
-    font-weight: 300;
-    line-height: 1.7em;
-    color: #999;
-}
-
-a, a:hover, a:focus {
-    color: inherit;
-    text-decoration: none;
-    transition: all 0.3s;
-}
-
-#sidebar {
-    /* don't forget to add all the previously mentioned styles here too */
-    background: #7386D5;
-    color: #fff;
-    transition: all 0.3s;
-}
-
-#sidebar .sidebar-header {
-    padding: 20px;
-    background: #6d7fcc;
-}
-
-#sidebar ul.components {
-    padding: 20px 0;
-    border-bottom: 1px solid #47748b;
-}
-
-#sidebar ul p {
-    color: #fff;
-    padding: 10px;
-}
-
-#sidebar ul li a {
-    padding: 10px;
-    font-size: 1.1em;
-    display: block;
-}
-#sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
-}
-
-#sidebar ul li.active > a, a[aria-expanded="true"] {
-    color: #fff;
-    background: #6d7fcc;
-}
-ul ul a {
-    font-size: 0.9em !important;
-    padding-left: 30px !important;
-    background: #6d7fcc;
-}
 
 #delete-form {
     display: inline;

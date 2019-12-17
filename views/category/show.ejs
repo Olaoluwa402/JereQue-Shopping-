@@ -1,16 +1,26 @@
 
-<div class="container" id="books">
-	<a href="/books">Home <i class="fas fa-angle-double-right"></i> </a></span>
+<div class="container mt-4">
+	<a href="/books">Home <i class="fas fa-angle-double-right"></i></a>
+	<% catShow.forEach(cate => { %>
+			<span><%= cate.name%> </span>
+	<%})%>
+</div>
+
+<div class="container">
+	<div  id="books">
 	<% books.forEach(book => { %>
+	
 	<div class="card mb-4 mt-4 mx-auto" style="max-width: 540px;">
 	  <div class="row no-gutters">
-
-	    <div class="col-md-4">
+	    <div class=" col-7 col-md-6">
+	      <a class=""  href="/books/<%= book._id %>">
 	      <img class="" style="width:100%; height: 100%" src="<%= book.image%>" alt="Card image cap">
+	        </a>
 	    </div>
-	    <div class="col-md-8">
+	    <div class="col-5 col-md-6">
 	      <div class="card-body">
-	        <h5 class="card-title"><strong><%=book.book_title%></strong></h5>
+	        <h5 class="card-title categoryTitle"><strong><%=book.book_title%></strong></h5>
+	        <h6 class=""><small><%= book.category.name%></small></h6>
 	        <% if (book.rating === 0) { %>
 	               <em style="font-size:0.9rem;">No reviews yet.</em>
 	           <% } else { %>
@@ -21,40 +31,45 @@
 	               <span class="fa fa-star <% if (book.rating > 4.5) { %> checked <% } %>"></span>
 	           <% } %>
 	           <div class="availa float-right"><%= book.availability%></div>
-	           <div><strong><span>&#8358</span><%= book.price%></strong></div>
-	           <a href="/shop/add-to-cart/<%= book._id%>" class="btn btn-outline-primary btn-sm">Add to Cart</a>
-			   <a class="btn btn-primary btn-sm"  href="/books/<%= book._id %>"> more info</a>
+	           <div class="categoryPrice"><strong><span>&#8358</span><%= book.price%></strong></div>
+	           <a href="/shop/add-to-cart/<%= book._id%>" class="btn btn-outline-success btn-sm">Add to Cart</a>
 	      </div>
 	    </div>
 	  </div>
 	</div>
+    
 	<% }) %>
-       <!-- next/previous button -->
+	</div>
+	<!-- next/previous button -->
 		<div class="row mt-1">
 			<div class="  col-md-12">
-				<button type="button" class="btn btn-info " onClick="getPrevious()";>Previous</button>
-				<button type="button" class="btn btn-info float-right buttonfloat" onClick="getNext()";>Next</button>
+				<button type="button" class="btn btn-success " onClick="getPrevious()";>Previous</button>
+				<button type="button" class="btn btn-success float-right buttonfloat" onClick="getNext()";>Next</button>
 			</div>
 		</div>
 </div>
 
 <script>
+
 	let page = 1; 
-	let limit = 12;
+	let limit = 10;
 	let myTotal = <%= myTotal.length%>;
-	
+	let categoryId =  "<%=categoryId%>";
 	
  function getNext(){
- 	if(page * limit < myTotal){
+ 	if(page * limit < myTotal){ 
  		page++;
-
-
  		$.ajax({
-            url: "category/get-category/" + page + "/" + limit,
+            url: "/category/" + categoryId + "/get-category/" + page + "/" + limit,
             type:"GET",
             success: function(response){
             	console.log(response);
             	 renderBooks(response);
+            },
+             error: function(jqXHR, textStatus, errorThrown){
+            	console.log(jqXHR);
+            	console.log(textStatus);
+            	console.log(errorThrown);
             }
  
         });
@@ -69,7 +84,7 @@
  		page--;
 
  		$.ajax({
-             url: "/get-category/" + page + "/" + limit,
+             url: "/category/" + categoryId + "/get-category/" + page + "/" + limit,
             type:"GET",
             success: function(response){
             	console.log(response);
@@ -98,13 +113,13 @@
 				 html +='<div class="card mb-4 mt-4 mx-auto" style="max-width: 540px;">';
 					  html +=' <div class="row no-gutters">';
 
-					   html +='  <div class="col-md-4">';
+					   html +='  <div class="col-md-6">';
 					     html +='<img  style="width:100%; height: 100%" src="' + books[a].image +  '"alt="Card image cap">';
 					   html +='  </div>';
-					   html +='  <div class="col-md-8">';
+					   html +='  <div class="col-md-6">';
 					     html +='  <div class="card-body">';
 					     html +=' <h5 class="card-title"><strong>' + books[a].book_title + '</strong></h5>';
-					       
+					        html +='<h6 class=""><small>' + books[a].category.name + '</small></h6>';
 					           html +=' <div class="availa float-right">' + books[a].availability + '</div>';
 					          html +='  <div><strong><span>&#8358</span>' + books[a].price + '</strong></div>';
 					          html +='  <a href="/shop/add-to-cart/' + books[a]._id + '" class="btn btn-outline-primary btn-sm">Add to Cart</a>';

@@ -1,5 +1,7 @@
 
+
 <% if(currentUser && currentUser.isAdmin ){ %>
+ <div class="container" id="admin">
   <h2 class="text-center admin"> Admin Page </h2>
   <ul class="nav nav-tabs">
             <li class="nav-item mr-2 mb-2">
@@ -18,7 +20,7 @@
               <a class="nav-link btn btn-lg btn-primary" href="/admin/settings">Page limit Settings</a>
             </li>
         </ul>
-
+ </div>
 <%} else {%>
   <div class="container">
       <div style="width: ; margin: 25px auto;">
@@ -27,7 +29,7 @@
               <a class="nav-link active" href="#">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Profile</a>
+              <a class="nav-link" href="/users/<%=currentUser.id%>">Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/shop/shopping-cart/">Wishlist</a>
@@ -41,43 +43,124 @@
 
           <h2>My orders</h2> 
          <%  orders.forEach(function(order) { %>
-          <div class="card border-success mb-3" style="">
-              <div class="card-header bg-transparent border-success"><%= order.paid_At.toDateString() %> | <%= moment(order.paid_At).fromNow() %></div>
-              <div class="card-body text-success">
-                  <ul class="list-group">
-                    <% order.items.forEach(function(item) { %>
-                          <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <%= item.item.book_title %> | <%= item.qty %> units
-                            <span class="badge badge-primary badge-pill"><span>&#8358</span><%= item.price %></span>
-                          </li>
-                  <% }); %>
-                </ul>
-              </div>
-              <div class="card-footer bg-transparent border-success">
-                  <strong> Total price: <%= order.cart.totalPrice%></strong>
-        
-              </div>
+         <div class="container mt-2" id="userorders">
+            <div class="card border-success mb-3" style="">
+                <div class="card-header bg-transparent border-success"><%= order.paid_At.toDateString() %> | <%= moment(order.paid_At).fromNow() %></div>
+                <div class="card-body text-success">
+                    <ul class="list-group">
+                      <% order.items.forEach(function(item) { %>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                              <%= item.item.book_title %> | <%= item.qty %> units
+                              <span class="badge badge-success badge-pill"><span>&#8358</span><%= item.price %></span>
+                            </li>
+                    <% }); %>
+                  </ul>
+                </div>
+                <div class="card-footer bg-transparent border-success">
+                    <strong> Total price: <%= order.cart.totalPrice%></strong>
+          
+                </div>
+            </div>
           </div>
          <% }); %>
          
       </div>
   </div>
+
+     <!-- next/previous button -->
+  <div class="container mt-2">
+    <div class="row ">
+      <div class="  col-md-12">
+        <button type="button" class="btn" style="background: #e91e63; color:white" onClick="getPrevious()";>Previous</button>
+        <button type="button" class="btn float-right buttonfloat" style="background: #e91e63; color:white" onClick="getNext()";>Next</button>
+      </div>
+    </div>
+  </div>
 <% }%>
-<!-- <div class="" id="navbarResponsive">
-                  <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                      <a class="nav-link" href="/books">Home </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/books/new">Add Books</a>
-                    </li>
-                     <li class="nav-item">
-                      <a class="nav-link" href="/category/new">Add Category</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/category/all">All Category</a>
-                    </li>
-                  </ul>
-</div>
- -->
+
+
+  
+
+<script type="text/javascript">
+  let page = 1; 
+  let limit = 1;
+  <% if (locals.orderTotal != null){ %>
+  let ordertotal = <%=orderTotal.length%>; 
+  <% } %>
+  console.log(ordertotal);
+
+ function getNext(){
+  if(page * limit < ordertotal){
+    page++;
+
+
+    $.ajax({
+            url: "/get-user-orders/" + page + "/" + limit,
+            type:"GET",
+            datatype: "json",
+            success: function(orders){
+              console.log(orders);
+               renderBooks(orders);
+            },
+             error: function(jqXHR, textStatus, errorThrown){
+              console.log(jqXHR);
+              console.log(textStatus);
+              console.log(errorThrown);
+            }
  
+        });
+   }
+    console.log("next page is" + page);
+   
+ }
+
+
+ function getPrevious(){
+  if(page > 1){
+    page--;
+
+    $.ajax({
+            url: "/get-user-orders/" + page + "/" + limit,
+            type:"GET",
+            success: function(orders){
+              console.log(orders);
+               renderBooks(orders);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+              console.log(jqXHR);
+              console.log(textStatus);
+              console.log(errorThrown);
+            }
+ 
+        });
+  }
+    console.log("previous page is" + page);
+  
+ }
+
+  function renderBooks(orders) {
+    if(orders.length > 0){
+      let html ="";
+        $.each(orders, function(i, order){
+        html +='<div class="card border-success mb-3" style="">';
+          html +='<div class="card-header bg-transparent border-success">' + new Date(order.paid_At).toDateString()  + " " + '|' + " " + moment(new Date(order.paid_At)).fromNow() + '</div>';
+              html +='<div class="card-body text-success">';
+               html +='<ul class="list-group">';
+                      $.each(order.cart.items, function(i, item){
+                        html +='<li class="list-group-item d-flex justify-content-between align-items-center">' +
+                          item.item.book_title + '|' + item.qty + 'units'  +
+                            '<span class="badge badge-primary badge-pill"><span>&#8358</span>' + item.price + '</span>';
+                        html +='</li>';
+                    });
+                 html +='</ul>';
+                html +='</div>';
+               html +='<div class="card-footer bg-transparent border-success">';
+            html +='<strong> Total price:' + order.cart.totalPrice + '</strong>';
+        html +='</div>';
+      html +=' </div>';
+  });
+   $("#userorders").html(html);
+ }
+}
+
+</script>

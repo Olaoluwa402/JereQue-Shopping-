@@ -4,7 +4,7 @@
 
 <div class="container">
     <div class="row">
-        <h1 style="text-align: center">New Review: <%= book.book_title %></h1>
+        <h1 style="text-align: center; font-size:1.2rem;">New Review: <%= book.book_title %></h1>
         <div class="login w-50 mx-auto formtag">
             <form action="/books/<%= book._id %>/reviews" method="POST">
                 <div class="form-group">

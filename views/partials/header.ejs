@@ -1,40 +1,108 @@
 
 
+<div class="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar" class="sidebarSide" >
 
- <div class="container-fluid topnav">
-      <ul class="nav justify-content-end">
-        <span class=" pt-1 ">|</span>
-          <li class="nav-item">
-              <a class="nav-link" href="/shop/shopping-cart/">
-              <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart
-              <span class="badge bg-danger" style="color:#fff;"><% if (locals.session.cart != null){ %><strong><%= session.cart.totalQty%></strong>  <% } %></span>
-              </a>
-          </li> <span class=" pt-1 ">|</span>
-          <li class="nav-item">
-            <a class="nav-link active" href="/contact">Contact Us</a>
-          </li> <span class="pt-1 ">|</span>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Blog</a>
-          </li> <span class="pt-1">|</span>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li> <span class="pt-1">|</span>
-          <li class="nav-item">
-            <a class="nav-link " href="/books">Home</a>
-          </li>
-      </ul>
- </div>
+        <div id="dismiss">
+            <i class="fas fa-arrow-left"></i>
+        </div>
 
- <nav class="navbar navbar-expand-lg navbar-dark bg-dark " >
-        <div class="container-fluid ">
+        <div class="sidebar-header mt-4">
+            <h3><i class="fas fa-sign-in-alt"></i> <a href="/users/login">Login</a></h3>
+        </div>
 
-           <a class="navbar-brand" href="#">LOGO</a>
-            <button type="button" id="sidebarCollapse" class="btn btn-light mt-0 ml-4" >
-                <i class="fas fa-align-left"></i>
-                <span>ALL CATEGORIES</span>
-            </button>
-            
-           
+        <ul class="list-unstyled components">
+            <p>Categories</p>
+            <li class="active">
+               <a href="/category/5dd2822fa7a07c02b8936e4d"><i class="fas fa-ambulance"></i> Home </a>
+            </li>
+            <li>
+              <a href="/category/5ded053cc850c612fce5739b"><i class="fas fa-graduation-cap"></i> Clothings</a>
+            </li>
+            <li>
+              <a href="/category/5ded053cc850c612fce5739b"><i class="fas fa-graduation-cap"></i> Kitchen</a>
+            </li>
+            <li>
+              <a href="/category/5ded053cc850c612fce5739b"><i class="fas fa-graduation-cap"></i> Footwares</a>
+            </li>
+            <li>
+              <a href="/category/5ded053cc850c612fce5739b"><i class="fas fa-graduation-cap"></i> Toys</a>
+            </li>
+            <li>
+              <a href="/category/5ded053cc850c612fce5739b"><i class="fas fa-graduation-cap"></i> Sports</a>
+            </li>
+            <li>
+              <a href="/category/5ded053cc850c612fce5739b"><i class="fas fa-graduation-cap"></i> Movies</a>
+            </li>
+            <li>
+              <a href="/category/5ded053cc850c612fce5739b"><i class="fas fa-graduation-cap"></i> Books</a>
+            </li>
+            <li>
+              <a href="/category/5ded053cc850c612fce5739b"><i class="fas fa-graduation-cap"></i> Accessories</a>
+            </li>
+
+            <li>
+                <a href="#">Portfolio</a>
+            </li>
+            <li>
+                <a href="#">Contact</a>
+            </li>
+          
+                  <li class="nav-item dropdown d-block d-md-none">
+                      <a class="nav-link dropdown-toggle " href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      ACCOUNT
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="/shop/shopping-cart/">Wishlist</a>
+                        <% if(!currentUser){ %>
+                        <a class="dropdown-item" href="/users/login">Login</a>
+                         <% } else { %>
+                         <a class="dropdown-item" href="/users/dashboard"><i class="fas fa-user"><span> Dashboard</span></i></a>
+                          <a class="dropdown-item" href="/users/logout">Logout</a>
+
+                        <% } %>
+                        <a class="dropdown-item" href="/users/register">Signup</a>
+                  </li>
+    </nav>
+
+    <!-- Page Content -->
+    <div id="content">
+
+
+        <div class="container-fluid topnav">
+
+            <ul class="nav justify-content-end">
+               <a class="navbar-brand " href="#">JereQue Store</a>
+              <span class=" pt-1 ">|</span>
+                <li class="nav-item">
+                    <a class="nav-link" href="/shop/shopping-cart/">
+                    <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart
+                    <span class="badge bg-danger" style="color:#fff;"><% if (locals.session.cart != null){ %><strong><%= session.cart.totalQty%></strong>  <% } %></span>
+                    </a>
+                </li> <span class=" pt-1 ">|</span>
+                <li class="nav-item">
+                  <a class="nav-link " href="/contact">Contact Us</a>
+                </li> <span class="pt-1 ">|</span>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Blog</a>
+                </li> <span class="pt-1">|</span>
+                <!-- <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li> <span class="pt-1">|</span> -->
+                <li class="nav-item">
+                  <a class="nav-link " href="/books">Home</a>
+                </li>
+            </ul>
+       </div>
+
+        <nav class="navbar navbar-expand-lg navbar-light mynav">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse" class="btn btn-light">
+                    <i class="fas fa-align-left"></i>
+                    <span>Categories</span>
+                </button>
+               
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -50,16 +118,14 @@
                 </div>
             </form>
                    
-                  <ul class="navbar-nav ml-auto">
+                  <ul class="navbar-nav ml-auto AccountHideMobile">
                    
                     <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       ACCOUNT
                       </a>
                       <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Wishlist</a>
-                        <a class="dropdown-item" href="#">Checkout</a>
-
+                        <a class="dropdown-item" href="/shop/shopping-cart/">Wishlist</a>
                         <% if(!currentUser){ %>
                         <a class="dropdown-item" href="/users/login">Login</a>
                          <% } else { %>
@@ -72,20 +138,13 @@
                   </ul>
 
                 </div>
-               
-        </div>
-    </nav>
-      <!--navigation-->
-      <!-- side bar collapse -->
-     <div class="wrapper">
+            </div>
+        </nav>
+    </div>
+    <!-- Dark Overlay element -->
+    <div class="overlay"></div>
 
-    <!-- Sidebar AJAX CALL-->
-    <nav id="sidebar" class="nav-dark bg-dark p-3">
-      
-        <ul class=" active list-unstyled components" id="allCategory"></ul>
-     </nav>
 
-    <div id="content" class="container">
 
       <!--error message-->
     <div class="container">
@@ -98,16 +157,52 @@
        <div class="alert alert-success"><p><%= success %></p></div>
      <% } %>
   </div>
-
-<% if(typeof errors != 'undefined') {%>
+  <div class="container">
+    <% if(typeof errors != 'undefined') {%>
     <% errors.forEach(function(error) { %>
       <div class="alert alert-danger">
       <%= error.msg %>
        </div>
     <% });%>
- <%}%> 
+    <%}%> 
+  </div>
 
- 
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
 
 <script type="text/javascript">
@@ -130,3 +225,4 @@
     });
 
 </script>
+

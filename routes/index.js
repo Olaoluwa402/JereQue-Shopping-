@@ -294,20 +294,46 @@ router.post("/admin/save_settings", function(req, res){
    
 });
 // render dashboard page 
-router.get("/users/dashboard", isLoggedIn, function(req, res, next){
-    Order.find({user: req.user}, function(err, orders){
-      if (err){
-        console.log(err);
-      }
-      let cart;
-      orders.forEach(function(order){
+router.get("/users/dashboard", isLoggedIn, async (req, res, next) =>{
+    try{
+     const orders = await Order.find({user: req.user}).limit(1).sort({paid_At: 'desc'});
+      let orderTotal = await Order.find({user: req.user});
+     let cart;
+      orders.forEach((order)=>{
         cart = new Cart(order.cart);
         order.items = cart.generateArray();
       });
-      res.render("dashboard/index", {orders : orders});
-    }).sort({paid_At: 'desc'});
+       res.render("dashboard/index", {orders : orders, orderTotal :orderTotal});
+  }catch(err){
+           if (err){
+        console.log(err);
+      }
+  }
 }); 
 
+// send users orders to  dashboard page using ajax call
+router.get("/get-user-orders/:page/:limit", isLoggedIn, async (req, res, next) =>{
+      const page = req.params.page
+      const limit =req.params.limit
+
+      const startIndex = (page - 1) * limit
+      const endIndex = page * limit
+        try{
+
+      let orders = await Order.find({user: req.user}).skip(parseInt(startIndex)).limit(parseInt(limit)).sort({paid_At: 'desc'});
+      let cart;
+      orders.forEach((order) => {
+        cart = new Cart(order.cart);
+        order.items = cart.generateArray();
+      });
+      
+      res.send(orders);
+    } catch(err){
+          if (err){
+            console.log(err);
+        }
+    }
+}); 
 
 
 
@@ -317,13 +343,13 @@ router.get("/users/:id", async (req, res) => {
           try{
                const foundUser = await User.findById(req.params.id);
                //render profile template with that user
-                  res.render("users/profile", {user: foundUser});
-          }catch {
-                req.flash("error", 'Something went wrong!');
+                  res.render("user/profile/show", {user: foundUser});
+          }catch (e){
+                if(e){
+                   req.flash("error", 'Something went wrong!');
                 res.redirect("/users/dashboard")
-          }
-            
-            
+                }   
+          } 
     });
 
 //profile Edit route
@@ -332,65 +358,134 @@ router.get("/users/:id/edit", async (req, res) => {
       try{
           const newInfo = await User.findById(req.params.id);
                //render register template and populate with that user info
-                  res.render("users/register", {user: newInfo});
+                  res.render("user/profile/edit", {user: newInfo});
       }catch (e){
-                 console.log(e);
-                 res.redirect("/users/:id/edit")
+              if(e){
+                   // console.log(e);
+                 req.flash("error", 'Something went wrong!');
+                 res.redirect("/users/" + req.params.id + "/edit")
+              }
           }
 });
 
-router.get("/contact", function(req, res){
-    res.render("contact/contact");
-});
 
 // Profile update route
  router.put("/users/:id", [
     check('email', 'Email is not valid').isEmail().normalizeEmail(),
-    check('firstName', 'firstname field is required').not().isEmpty().trim(),
-     check('lastName', 'lastname field is required').not().isEmpty().trim(),
-    check('password', 'Password field is required').not().isEmpty(),
-    check('password2').custom((value, { req }) => {
-      if (value !== req.body.password) {
-        throw new Error('Password confirmation does not match password');
-      }
+    check('firstName', 'firstname is required').not().isEmpty().trim(),
+     check('lastName', 'lastname is required').not().isEmpty().trim(),
       // Indicates the success of this synchronous custom validator
-      return true;
-    })
   ], async (req, res, done) => {
 
      const errors = validationResult(req);
     if (!errors.isEmpty()) {
       // console.log(errors);
-      res.render('user/register', {errors:errors.array()});
+      const user = await User.findById(req.params.id);
+      res.render("user/profile/show", {errors:errors.array(), user: user });
       // return res.status(422).json(errors.array());
-    }   else{
+    } else{
           let newUpdate 
           try{
              newUpdate = await User.findById(req.params.id);
              newUpdate.firstName = req.body.firstName,
              newUpdate.lastName = req.body.lastName,
              newUpdate.email = req.body.email,
-             newUpdate.password = req.body.password
+             // newUpdate.password = req.body.password
               
 
-                 // hash password
-              bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newUpdate.password, salt, async (err, hash) => {
-                  if (err) throw err;
-                  newUpdate.password = hash;
+             //     // hash password
+             //  bcrypt.genSalt(10, (err, salt) => {
+             //    bcrypt.hash(newUpdate.password, salt, async (err, hash) => {
+             //      if (err) throw err;
+             //      newUpdate.password = hash;
                     await newUpdate.save();
                      const showUrl = "/users/" + req.params.id;
                      res.redirect(showUrl)
-                });
-              });
-          }catch {
+            }catch {
               req.flash("error", "Unable to update data. Try again");
               res.redirect("/users/" + req.params.id)
           }
+      }
 
-    }
 });
 
+
+//profile Edit route
+router.get("/users/password/:id", async (req, res) => {
+
+      try{
+          const newInfo = await User.findById(req.params.id);
+               //render register template and populate with that user info
+                  res.render("user/profile/password-edit", {user: newInfo});
+      }catch (e){
+              if(e){
+                   // console.log(e);
+                 req.flash("error", 'Something went wrong!');
+                 res.redirect("/users/" + req.params.id)
+              }
+          }
+});
+
+
+// Password update route
+ router.put("/users/password/:id", [
+    check('password', 'Old password is required').not().isEmpty(),
+    check('password2', 'new password is required').not().isEmpty()
+      // Indicates the success of this synchronous custom validator
+  ], async (req, res, done) => {
+     const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // console.log(errors);
+      const user = await User.findById(req.params.id);
+      res.render("user/profile/password-edit", {errors:errors.array(), user: user });
+      // return res.status(422).json(errors.array());
+    } else{
+          let userPasswordUpdate
+          try{
+            userPasswordUpdate = await User.findById(req.params.id);
+            // console.log("This is the paswword" + userPasswordUpdate.password)
+          
+                    // Match password
+              bcrypt.compare(req.body.password, userPasswordUpdate.password, async (err, isMatch) => {
+                if (err) throw err;
+                // console.log(isMatch)
+                if (isMatch) {
+                  // return done(null, userPasswordUpdate);
+                  // hash password
+                  bcrypt.genSalt(10, (err, salt) => {
+                      bcrypt.hash(req.body.password2, salt, async (err, hash) => {
+                        if (err) throw err;
+                        // console.log("this is the hash" + hash)
+                        userPasswordUpdate.password = hash;
+                         // console.log(userPasswordUpdate.password)
+                         await userPasswordUpdate.save(); 
+
+                     req.flash("success", "password successfully changed");
+                     const showUrl = "/users/" + req.params.id;
+                     res.redirect(showUrl)
+                      });
+                       
+                    });
+                
+                } else {
+                   // console.log("password incorrect");
+                  return done(null, false, { message: 'Password incorrect' });
+                }
+              });
+            }catch (e){
+              // console.log(e)
+              req.flash("error", "Unable to update data. Try again");
+              res.redirect("/users/" + req.params.id)
+            }
+          }
+      }
+);
+
+
+
+router.get("/contact", function(req, res){
+    res.render("contact/contact");
+});
 
     // forgot password
 router.get('/forgot', function(req, res) {
@@ -512,8 +607,6 @@ router.post('/reset/:token', function(req, res) {
     res.redirect('/books');
   });
 });
-
-
 
 function isLoggedIn (req, res, next){
   if (req.isAuthenticated()){

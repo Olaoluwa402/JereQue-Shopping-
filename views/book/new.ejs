@@ -27,21 +27,49 @@
             </div>
           </div>
           <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="img">Cover</label>
-                 <input type="file" id="img" name=image   accept="image/*" required>
+            <div class="form-group col-md-12">
+                <label for="img">Cover image</label>
+                 <input type="file" multiple id="cover" name="image"  class="form-control-file border"  required>
                  <div class="help-block with-errors" style="color: #ae323b"></div>
             </div>
+          </div>
+           <div class="row">
+                <span id="prev-text1"></span>
+                <div class="col-md-12">
+                  <div class="preview-cover"></div>
+                </div>
+          </div>
+            
+          <div class="form-row">
             <div class="form-group col-md-6">
-              <label for="price">Price</label>
-              <input class="form-control" type="number" min="1" name="price" value= "<%= book.price%>" placeholder="price">
+                <label for="img">Upload image 1</label>
+                 <input type="file" multiple id="image1" name="image_1" class="form-control-file border">
+                 
+            </div>
+            <div class="form-group col-md-6">
+                <label for="img">Upload image 2</label>
+                 <input type="file" multiple id="image2" name="image_2" class="form-control-file border">
+                 
             </div>
           </div>
+              <div class="row">
+                <span id="prev-text2"></span>
+                <div class="col-md-12">
+                  <div class="preview-images"></div>
+                </div>
+              </div>
 
+          <div class="form-row">
+                 <div class="form-group col-md-12">
+                 <label for="price">Price</label>
+                 <input class="form-control" type="number" min="1" name="price" value= "<%= book.price%>" placeholder="price">
+            </div>
+          </div>
+          
           <div class="form-row">
                 <div class="form-check form-check-inline">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" name="availability" id="inlineRadio1" value=""> Available
+                      <input class="form-check-input" type="radio" name="availability" id="inlineRadio1" value=""> In stock
                     </label>
                 </div>
                 <div class="form-check form-check-inline">
@@ -67,8 +95,6 @@
     </div>
 </div>
 </div>
-
-
 
 
 <!-- 
