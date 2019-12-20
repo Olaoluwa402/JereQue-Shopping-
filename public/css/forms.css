@@ -410,7 +410,11 @@ a[data-toggle="collapse"] {
 
 .landingCard .cardTitle, .categoryTitle{
     color: green;
-    font-size: 1.1em;
+    font-size: 0.8rem;
+}
+
+.landingCard .lineH{
+    /* line-height: 0.5rem; */
 }
 
 .showgrid input{
