@@ -608,6 +608,11 @@ hr.light-100{
     font-size: 0.9em;
  }
 
+
+ .landingCard .cardTitle, .categoryTitle, .landingCard .price{
+    font-size: 0.8em;
+}
+
 }
 
 

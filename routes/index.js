@@ -5,6 +5,7 @@ const passport = require("passport");
 const async = require("async");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
+const fetch = require('node-fetch');
 
 // const {validateBody, schemas} = require("../middleware/joival");
 const { check, validationResult } = require('express-validator');
@@ -270,7 +271,7 @@ router.get("/users/logout", function(req, res){
 
 
 // admin settings
-router.get("/admin/settings", async (req, res) => {
+router.get("/admin/settings", isLoggedIn, async (req, res) => {
 
   try{
         const bookLimit = await BookLimit.findOne({});
@@ -338,39 +339,58 @@ router.get("/get-user-orders/:page/:limit", isLoggedIn, async (req, res, next) =
 
 
 // USER PROFILE
-router.get("/users/:id", async (req, res) => {
+router.get("/users/:id", isLoggedIn, function(req, res){
+
+       User.findById(req.params.id, function(error, foundUser){
+        if(error || !foundUser){
+             req.flash("error", 'Sorry, Cannot find Associated User!');
+             return res.redirect("/books")
+        }
+            // render profile template with that user
+            res.render("user/profile/show", {user: foundUser});
+       })
           //find the user profile with provided ID
-          try{
-               const foundUser = await User.findById(req.params.id);
-               //render profile template with that user
-                  res.render("user/profile/show", {user: foundUser});
-          }catch (e){
-                if(e){
-                   req.flash("error", 'Something went wrong!');
-                res.redirect("/users/dashboard")
-                }   
-          } 
+          // let foundUser
+          // try{
+          //      foundUser = await User.findById(req.params.id);
+          //      //render profile template with that user
+          //         res.render("user/profile/show", {user: foundUser});
+          // } catch (err){
+          //         if(err){
+          //           req.flash("error", 'Something went wrong!');
+          //          res.redirect("/users/dashboard")
+          //         } 
+          // } 
     });
 
 //profile Edit route
-router.get("/users/:id/edit", async (req, res) => {
+router.get("/users/:id/edit", isLoggedIn, function(req, res){
 
-      try{
-          const newInfo = await User.findById(req.params.id);
-               //render register template and populate with that user info
-                  res.render("user/profile/edit", {user: newInfo});
-      }catch (e){
-              if(e){
-                   // console.log(e);
-                 req.flash("error", 'Something went wrong!');
-                 res.redirect("/users/" + req.params.id + "/edit")
-              }
-          }
+       User.findById(req.params.id, function(error, newInfo){
+        if(error || !newInfo ){
+              req.flash("error", 'Sorry, Cannot find Associated User!');
+             return res.redirect("/books")
+        }
+            // render profile template with that user
+           res.render("user/profile/edit", {user: newInfo});
+       })
+
+      // try{
+      //     const newInfo = await User.findById(req.params.id);
+      //          //render register template and populate with that user info
+      //             res.render("user/profile/edit", {user: newInfo});
+      // }catch (e){
+      //         if(e){
+      //              // console.log(e);
+      //            req.flash("error", 'Sorry, Cannot find Associated User!');
+      //            res.redirect("/users/" + req.params.id + "/edit")
+      //         }
+      //     }
 });
 
 
 // Profile update route
- router.put("/users/:id", [
+ router.put("/users/:id", isLoggedIn, [
     check('email', 'Email is not valid').isEmail().normalizeEmail(),
     check('firstName', 'firstname is required').not().isEmpty().trim(),
      check('lastName', 'lastname is required').not().isEmpty().trim(),
@@ -410,25 +430,34 @@ router.get("/users/:id/edit", async (req, res) => {
 });
 
 
-//profile Edit route
-router.get("/users/password/:id", async (req, res) => {
+//password Edit route
+router.get("/users/password/:id", isLoggedIn, function(req, res){
 
-      try{
-          const newInfo = await User.findById(req.params.id);
-               //render register template and populate with that user info
-                  res.render("user/profile/password-edit", {user: newInfo});
-      }catch (e){
-              if(e){
-                   // console.log(e);
-                 req.flash("error", 'Something went wrong!');
-                 res.redirect("/users/" + req.params.id)
-              }
-          }
+      User.findById(req.params.id, function(error, newInfo){
+        if(error || !newInfo ){
+              req.flash("error", 'Sorry, Cannot find Associated User!');
+             return res.redirect("/books")
+        }
+            // render profile template with that user
+           res.render("user/profile/password-edit", {user: newInfo});
+       })
+
+      // try{
+      //     const newInfo = await User.findById(req.params.id);
+      //          //render register template and populate with that user info
+      //             res.render("user/profile/password-edit", {user: newInfo});
+      // }catch (e){
+      //         if(e){
+      //              // console.log(e);
+      //            req.flash("error", 'Something went wrong!');
+      //            res.redirect("/users/" + req.params.id)
+      //         }
+      //     }
 });
 
 
 // Password update route
- router.put("/users/password/:id", [
+ router.put("/users/password/:id", isLoggedIn, [
     check('password', 'Old password is required').not().isEmpty(),
     check('password2', 'new password is required').not().isEmpty()
       // Indicates the success of this synchronous custom validator
@@ -484,7 +513,9 @@ router.get("/users/password/:id", async (req, res) => {
 
 
 router.get("/contact", function(req, res){
-    res.render("contact/contact");
+   const MAP_KEY = process.env.MAP_KEY
+   // console.log(MAP_KEY)
+    res.render("contact/contact", {MAP_KEY:MAP_KEY});
 });
 
     // forgot password
@@ -607,6 +638,14 @@ router.post('/reset/:token', function(req, res) {
     res.redirect('/books');
   });
 });
+
+// router.get("/map_api", async (req, res) => {
+//   const map_url = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAsgzJYbUWq5Wimyr7--3NqHWEezFYmSaM&callback=initMap`;
+//   const map_response = await fetch(map_url);
+//   const map_json = await map_response.json()
+//   res.json(json);
+// });
+
 
 function isLoggedIn (req, res, next){
   if (req.isAuthenticated()){

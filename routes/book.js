@@ -38,7 +38,7 @@ const imageFilter = function (req, file, cb) {
 // 	).array('myfiles[]', 4);
 
 const upload = multer(
-	{ storage: storage, limits:{fileSize: 15000000},fileFilter: imageFilter}
+	{ storage: storage, limits:{fileSize: 1500000},fileFilter: imageFilter}
 	).any(
       [
       	{
@@ -127,17 +127,20 @@ router.get("/get-books/:page/:limit", async (req, res) => {
 router.post("/",  middleware.adminAccess, async (req, res, next) => {
     upload(req, res, async(err) =>{
           if(err){
-          	console.log(err);
+          	// console.log(err);
             req.flash('error', err.message + ' ' + "Total Image size should not exceed 1.5mb");
             res.redirect('/books/new')
           }else{
-            console.log(req.files)
+            // console.log(req.files)
          
 
            let res_promises = req.files.map(file => new Promise((resolve, reject) => {
               cloudinary.uploader.upload(file.path, {width:800, height:800}, function(error, result){
-                 if(error) reject(error)
-                  else resolve(result)
+                 if(error){
+                  req.flash('error', "Something went wrong with the file upload. Please try again");
+                  res.redirect('/books/new')
+                 } else resolve(result)
+                  // reject(error)
                })
              })
            )
@@ -148,7 +151,7 @@ router.post("/",  middleware.adminAccess, async (req, res, next) => {
                 
                  // console.log(result[0].secure_url)
 
-                 console.log(result)
+                 // console.log(result)
                 const   book_title = req.body.book_title; 
                 const   availability = req.body.availability;
                 const   price = req.body.price;
@@ -268,8 +271,10 @@ router.put("/:id",  middleware.adminAccess, async (req, res) => {
                            console.log(req.files)
                            let res_promises = req.files.map(file => new Promise((resolve, reject) => {
 					              cloudinary.uploader.upload(file.path, {width: 800, height:800}, async (error, result) =>{
-					                 if(error) reject(error)
-					                  else resolve(result)
+					                      if(error){
+                                  req.flash('error', "Something went wrong with the file upload. Please try again");
+                                  res.redirect('/books/new')
+                                 } else resolve(result)
 					               })
 					             })
 					           )

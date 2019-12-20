@@ -24,39 +24,12 @@
 
 // }
 
-let geocoder;
-  let map;
-  function initMap() {
-    geocoder = new google.maps.Geocoder();
-    const latlng = new google.maps.LatLng( 7.3775, 3.9470);
-    const mapOptions = {
-      zoom: 13,
-      center: latlng
-    };
-    map = new google.maps.Map(document.getElementById('map'), mapOptions);
-  
 
-   let address = "No 27 Cac Road, gbanda, Ibadan";
-   	 geocoder.geocode( {address: address}, function(results, status) {
-      if (status == 'OK') {
-        map.setCenter(results[0].geometry.location);
-        let marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location
-        });
+// const map_url = `/map_api`;
+// const response =  fetch(map_url);
+// const map_json =  response.json();async
+// console.log(map_json);
 
-        // maker info
-        let infoWindow = new google.maps.InfoWindow({
-        	content: '<h1>No 27 Cac Road, gbanda, Ibadan</h1>'
-        });
-        // marker listener
-       marker.addListener('click', function(){
-        	infoWindow.open(map, marker);
-        });
-      } else {
-        alert('Geocode was not successful for the following reason: ' + status);
-      }
-    });
-  }
+
 
        

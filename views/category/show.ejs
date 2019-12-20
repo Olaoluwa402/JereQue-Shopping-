@@ -30,7 +30,7 @@
 	               <span class="fa fa-star <% if (book.rating > 3.5) { %> checked <% } %>"></span>
 	               <span class="fa fa-star <% if (book.rating > 4.5) { %> checked <% } %>"></span>
 	           <% } %>
-	           <div class="availa float-right"><%= book.availability%></div>
+	           <div class="availa float"><%= book.availability%></div>
 	           <div class="categoryPrice"><strong><span>&#8358</span><%= book.price%></strong></div>
 	           <a href="/shop/add-to-cart/<%= book._id%>" class="btn btn-outline-success btn-sm">Add to Cart</a>
 	      </div>

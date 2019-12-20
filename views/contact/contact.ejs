@@ -1,3 +1,5 @@
+
+
 <div class="container contact_us">
 	<div class="row mt-2 mb-3 pl-3">
 		<span><a href="/books">Home <i class="fas fa-angle-double-right"></i></a> Contact us</span>
@@ -26,8 +28,65 @@
 	</div>
 </div>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=<%=MAP_KEY%>&callback=initMap" async defer></script> 
+  
+<script type="text/javascript">
+	
+		let geocoder;
+		  let map;
+		  function initMap() {
+		    geocoder = new google.maps.Geocoder();
+		    const latlng = new google.maps.LatLng( 7.3775, 3.9470);
+		    const mapOptions = {
+		      zoom: 13,
+		      center: latlng
+		    };
+		    map = new google.maps.Map(document.getElementById('map'), mapOptions);
+		  
+
+		   let address = "No 27 Cac Road, gbanda, Ibadan";
+		   	 geocoder.geocode( {address: address}, function(results, status) {
+		      if (status == 'OK') {
+		        map.setCenter(results[0].geometry.location);
+		        let marker = new google.maps.Marker({
+		            map: map,
+		            position: results[0].geometry.location
+		        });
+
+		        // maker info
+		        let infoWindow = new google.maps.InfoWindow({
+		        	content: '<h1>No 27 Cac Road, gbanda, Ibadan</h1>'
+		        });
+		        // marker listener
+		       marker.addListener('click', function(){
+		        	infoWindow.open(map, marker);
+		        });
+		      } else {
+		        alert('Geocode was not successful for the following reason: ' + status);
+		      }
+		    });
+  }
+</script>
+ <!-- <script type="text/javascript">
+    $(document).ready(() => {     
+
+        $.ajax({
+            url: "/api_url",
+            type:"GET",
+            datatype: "json",
+            success: (data) =>{
 
 
+              // let html ='';
+              // categories.forEach(category => { 
+              //    html +=  '<li>' + '<a href="/category/' + category._id + '"' + '>' + category.name + '</a>' + '</li>';
+              // });
+              
+              // $("#allCategory").html(html);
+            }
+        });
+        
+    });
 
-
+</script> -->
 
