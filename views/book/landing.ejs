@@ -236,13 +236,13 @@
                       <img class="card-img-top img-fluid w-100" src="<%= book.image%>" alt="Card image cap"> 
                    </div>
                    </a>
-                  <div class="card-body lineH">
+                  <div class="card-body p-1 lineH">
                       <p class="cardTitle "><%=book.book_title%></p>
                       <p><span class="price"><span>&#8358 </span><b><%= book.price%></b></span></p>
                       <p class="availa"><%= book.availability%></p>
-                      <div class="row">
+                      
                             <a href="/shop/add-to-cart/<%= book._id%>" class="btn btn-outline-success text-success btn-sm"><i class="fa fa-shopping-cart"></i> Add to Cart</a> 
-                      </div>
+                      
                   </div>
                 </div>
               </div>
@@ -434,13 +434,13 @@
                   html +='<img class="card-img-top img-fluid" src="' + books[a].image + '">'; 
                 html +='</div>';
                 html +=' </a>';
-                  html +='<div class="card-body">';
+                  html +='<div class="card-body p-1">';
                       html +=' <p class="cardTitle">' + books[a].book_title + '</p>';
                       html +='<p><span class="price"><span>&#8358 </span><b>' + books[a].price + '</b></span></p>';
                          html +=' <p class="availa float-right">' + books[a].availability + '</p>';
-                      html +='<div class="row">';
+                      
                             html +='<a href="/shop/add-to-cart/' + books[a]._id + '" class="btn btn-outline-success text-success btn-sm"><i class="fa fa-shopping-cart"></i> Add to Cart</a>';
-                       html +=' </div>';
+                     
                  html +=' </div>';
                 html +='</div>';
              html +='</div>';
